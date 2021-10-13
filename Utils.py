@@ -34,16 +34,31 @@ def num_to_arr(n: int, num: int) -> list:
     return ans
 
 
-def comparator(arr: list, num: int, eq=False):
+def comparator(arr: list, num: int, le=False):
     ret = arr.copy()
     for i, r in enumerate(ret):
-        if eq and r == num:
+        if le and r == num:
             ret[i] = 1
         elif r < num:
             ret[i] = 1
         else:
             ret[i] = 0
     return ret
+
+
+def count_arr(arr: list):
+    num = 0
+    for a in arr:
+        if a == 1:
+            num += 1
+    return num
+
+
+def DFF(arr: list, num: int) -> list:
+    first = arr[0: num]
+    second = arr[num:]
+    second.extend(first)
+    return second
 
 
 if __name__ == '__main__':
@@ -53,11 +68,17 @@ if __name__ == '__main__':
     # nums = bit_arrays_to_nums(5, bit_arrays)
     # print(nums)
     arr = [i for i in range(10)]
-    ret = comparator(arr, 5, False)
-    print(arr)
+    # ret = comparator(arr, 5, False)
+    # print(arr)
+    # print(ret)
+    #
+    # ret = comparator(arr, 5, True)
+    # print(arr)
+    # print(ret)
+    ret = DFF(arr, 2)
     print(ret)
-
-    ret = comparator(arr, 5, True)
     print(arr)
-    print(ret)
+    ret[2] = 0
+    print(arr)
     # print(num_to_arr(5, 30))
+
