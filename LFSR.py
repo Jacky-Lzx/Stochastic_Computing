@@ -69,10 +69,6 @@ def simulate(n: int, seed: list, polynomial: list, scrambling: list = None) -> l
     numbers = set()
     cur = seed.copy()
 
-    # num = get_num(cur)
-    # output.append(num)
-    # numbers.add(num)
-
     while True:
         num = get_num(cur, scrambling)
         if num in numbers:
@@ -89,18 +85,17 @@ if __name__ == '__main__':
 
     # print(LFSR.search_polynomials(5))
 
-    N = 5
+    N = 8
 
-
-
-    import Utils
-    scramblings = Utils.generate_scrambling(N)
-
-    seed = [0 for _ in range(N)]
-    seed[-1] = 1
+    # import Utils
+    # scramblings = Utils.generate_scrambling(N)
+    #
+    # seed = [0 for _ in range(N)]
+    # seed[-1] = 1
 
     polynomials = search_polynomials(N)
+    print(polynomials)
     # for poly in polynomials:
     #     print(LFSR.simulate(N, seed, poly))
-    for scram in scramblings:
-        print(simulate(N, seed, polynomials[0], scram))
+    # for scram in scramblings:
+    #     print(simulate(N, seed, polynomials[0], scram))
