@@ -34,10 +34,30 @@ def num_to_arr(n: int, num: int) -> list:
     return ans
 
 
+def comparator(arr: list, num: int, eq=False):
+    ret = arr.copy()
+    for i, r in enumerate(ret):
+        if eq and r == num:
+            ret[i] = 1
+        elif r < num:
+            ret[i] = 1
+        else:
+            ret[i] = 0
+    return ret
+
+
 if __name__ == '__main__':
     # generate_scrambling(5)
-    bit_arrays = nums_to_bit_arrays(5, [2, 5, 3, 4, 6, 7])
-    print(bit_arrays)
-    nums = bit_arrays_to_nums(5, bit_arrays)
-    print(nums)
+    # bit_arrays = nums_to_bit_arrays(5, [2, 5, 3, 4, 6, 7])
+    # print(bit_arrays)
+    # nums = bit_arrays_to_nums(5, bit_arrays)
+    # print(nums)
+    arr = [i for i in range(10)]
+    ret = comparator(arr, 5, False)
+    print(arr)
+    print(ret)
+
+    ret = comparator(arr, 5, True)
+    print(arr)
+    print(ret)
     # print(num_to_arr(5, 30))
