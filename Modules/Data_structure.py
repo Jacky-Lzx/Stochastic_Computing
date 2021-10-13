@@ -17,5 +17,7 @@ class Priority_queue:
         return len(self.arr) == 0
 
     def print(self):
+        print("---------Priority queue-------")
         for i in self.arr:
             print(i)
+        print("--------------end-------------")
