@@ -1,5 +1,4 @@
-import LFSR
-import Utils
+from Modules import Utils, LFSR
 
 if __name__ == '__main__':
     N = 8
@@ -20,8 +19,6 @@ if __name__ == '__main__':
 
         y_sim[x - 1] = Utils.count_arr(and_fn(bitstream_1, bitstream_2)) / (LEN - 1)
         # y_sim[x - 1] = Utils.count_arr(and_fn(bitstream_1, bitstream_2))
-
-
 
     from matplotlib import pyplot as pl
 
