@@ -6,6 +6,11 @@ def generate_scrambling(n: int) -> list:
     return ans
 
 
+def generate_seeding(n: int) -> list:
+    ans = [num_to_arr(n, i) for i in range(1, 2**n)]
+    return ans
+
+
 def nums_to_bit_arrays(n: int, nums: list) -> list:
     ans = list()
     for num in nums:
@@ -67,7 +72,8 @@ if __name__ == '__main__':
     # print(bit_arrays)
     # nums = bit_arrays_to_nums(5, bit_arrays)
     # print(nums)
-    arr = [i for i in range(10)]
+    # arr = [i for i in range(10)]
+    print(generate_seeding(3))
     # ret = comparator(arr, 5, False)
     # print(arr)
     # print(ret)
@@ -75,10 +81,11 @@ if __name__ == '__main__':
     # ret = comparator(arr, 5, True)
     # print(arr)
     # print(ret)
-    ret = DFF(arr, 2)
-    print(ret)
-    print(arr)
-    ret[2] = 0
-    print(arr)
+    # ret = DFF(arr, 2)
+    # print(ret)
+    # print(arr)
+    # ret[2] = 0
+    # print(arr)
     # print(num_to_arr(5, 30))
+
 
