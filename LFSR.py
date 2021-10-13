@@ -1,12 +1,11 @@
 class LFSR:
     @staticmethod
-    def search_polynomial(n: int):
+    def search_polynomials(n: int):
         def generate_pivots(n: int):
             def helper(n: int, index: int, cur_list: list, ans: list):
-                if index == n:
+                if index == n - 1:
                     ans.append(cur_list.copy())
                     return
-
                 cur_list.append(index)
                 helper(n, index + 1, cur_list, ans)
                 del(cur_list[-1])
@@ -16,12 +15,25 @@ class LFSR:
             helper(n, 0, list(), ans)
             return ans
 
-        ans = generate_pivots(n)
-        print(ans)
-         # TODO: finish it
+        pivots = generate_pivots(n)
+        del(pivots[-1])
+        # print(pivots)
+
+        seed = [0 for _ in range(n)]
+        seed[-1] = 1
+
+        polynomials = list()
+
+        for polynomial in pivots:
+            nums = LFSR.simulate(n, seed, polynomial)
+            if len(nums) == 2**n - 1:
+                polynomials.append(polynomial)
+
+        # print(polynomials)
+        return polynomials
 
     @staticmethod
-    def simulate(n: int, seed: list, polynomial: list):
+    def simulate(n: int, seed: list, polynomial: list) -> list:
         def get_num(binary: list) -> int:
             length = len(binary)
             multiplier = 1
@@ -31,9 +43,10 @@ class LFSR:
                 multiplier *= 2
             return result
 
-        def process(cur: list, poly: list) -> list:
+        def process(n: int, cur: list, poly: list) -> list:
             node = cur[-1]
             for p in poly:
+                # if p != 0 and p != n - 1:
                 node ^= cur[p]
 
             cur.insert(0, node)
@@ -41,19 +54,25 @@ class LFSR:
             return cur
 
         output = list()
-        cur = seed
-        output.append(get_num(seed))
+        numbers = set()
+        cur = seed.copy()
+
+        num = get_num(cur)
+        output.append(num)
+        numbers.add(num)
+
         while True:
-            cur = process(cur, polynomial)
+            cur = process(n, cur, polynomial)
             num = get_num(cur)
-            if num == output[0]:
+            if num in numbers:
                 break
+            numbers.add(num)
             output.append(num)
 
         return output
 
 
 if __name__ == '__main__':
-    print(LFSR.simulate(4, [0,0,0,1], [0,1]))
+    # print(LFSR.simulate(4, [0,0,0,1], [0,1]))
 
-    # LFSR.search_polynomial(4)
+    print(LFSR.search_polynomials(5))
