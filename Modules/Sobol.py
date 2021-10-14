@@ -10,9 +10,10 @@ def generate(dim: int, num: int):
     sample = sample.T
 
     # return sample.tolist()
-    return sample
+    return sample.tolist()
 
 
 if __name__ == '__main__':
-    arr = generate(2, 5)
-    print(arr)
+    arr_0, arr_1 = generate(2, 5)
+    print(type(arr_0))
+    print(arr_1)
