@@ -32,13 +32,16 @@ def search_polynomials(n: int):
     return polynomials
 
 
-def simulate(n: int, seed: list, polynomial: list, scrambling: list = None) -> list:
+# TODO: inverting
+def simulate(n: int, seed: list, polynomial: list, scrambling: list = None, inserting_zero: int = -1, inverting: list = None) -> list:
     """
         scrambling[i] = j means the i-th bit in output is connected to the j-th bit before
     :param n: 
     :param seed: 
     :param polynomial: 
-    :param scrambling: 
+    :param scrambling:
+    :param inserting_zero:
+    :param inverting:
     :return: 
     """
     def get_num(binary: list, scrambling: list = None) -> int:
@@ -69,13 +72,21 @@ def simulate(n: int, seed: list, polynomial: list, scrambling: list = None) -> l
     numbers = set()
     cur = seed.copy()
 
+    index = 0
+
     while True:
+        if index == inserting_zero:
+            num = get_num([0 for _ in range(n)], scrambling)
+            numbers.add(num)
+            output.append(num)
         num = get_num(cur, scrambling)
         if num in numbers:
             break
         numbers.add(num)
         output.append(num)
         cur = process(n, cur, polynomial)
+
+        index += 1
 
     return output
 
@@ -85,17 +96,18 @@ if __name__ == '__main__':
 
     # print(LFSR.search_polynomials(5))
 
-    N = 8
+    N = 6
 
     # import Utils
     # scramblings = Utils.generate_scrambling(N)
     #
-    # seed = [0 for _ in range(N)]
-    # seed[-1] = 1
+    seed = [0 for _ in range(N)]
+    seed[-1] = 1
 
     polynomials = search_polynomials(N)
     print(polynomials)
-    # for poly in polynomials:
-    #     print(LFSR.simulate(N, seed, poly))
     # for scram in scramblings:
     #     print(simulate(N, seed, polynomials[0], scram))
+
+
+    print(simulate(N, seed, polynomials[0], None, 0, None))
