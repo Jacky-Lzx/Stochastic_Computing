@@ -11,6 +11,10 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    LEN = 2
+    real_fn = lambda x: x**2 / (LEN - 1)**2
+    print(real_fn(2))
+    LEN = 4
+    print(real_fn(2))
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

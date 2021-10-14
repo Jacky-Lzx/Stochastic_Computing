@@ -34,7 +34,7 @@ def evaluate(n: int, nums: list) -> int:
 
 
 if __name__ == '__main__':
-    N = 6
+    N = 4
     LEN = 2**N
     print(f"N = {N}")
     polynomials = LFSR.search_polynomials(N)
@@ -59,6 +59,9 @@ if __name__ == '__main__':
                 num_sequence = LFSR.simulate(N, seed, poly, scram)
 
                 value = evaluate(N, num_sequence)
+
+                if not priority_queue.empty() and value > priority_queue.last_value():
+                    continue
 
                 set = Setting(poly, seed, scram, value)
 
