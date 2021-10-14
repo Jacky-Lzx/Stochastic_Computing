@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     nums_1 = LFSR.simulate(N, seed_1, poly_1, scram_1)
     nums_2 = LFSR.simulate(N, seed_2, poly_2, scram_2)
-    new_1, new_2 = Progress_core.rotate(nums_1, nums_2)
+    new_1, new_2 = Progress_core.rotate(N, nums_1, nums_2)
     MAEs_LFSR = Progress_core.simulate(N, new_1, new_2, and_fn, real_fn)
 
     N = 6
