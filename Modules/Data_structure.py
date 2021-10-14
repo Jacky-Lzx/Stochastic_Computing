@@ -21,3 +21,8 @@ class Priority_queue:
         for i in self.arr:
             print(i)
         print("--------------end-------------")
+
+    def last_value(self):
+        if self.empty():
+            return None
+        return self.arr[-1].val()
