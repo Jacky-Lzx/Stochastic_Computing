@@ -109,4 +109,6 @@ if __name__ == '__main__':
                     priority_queue.remove_half()
 
     priority_queue.sort()
+    while priority_queue.length() > 100:
+        priority_queue.remove_half()
     priority_queue.print()
