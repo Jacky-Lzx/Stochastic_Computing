@@ -36,22 +36,25 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn):
         plt.plot(x_arr, y_sim[j])
     plt.show()
 
+    return MAEs
+
 
 def rotate(n: int, nums_1: list, nums_2: list) -> tuple:
     new_1 = list()
     new_2 = list()
-    for i in range(2**n - 1):
-        new_1.extend(nums_1)
+    if nums_1 is not None:
+        for i in range(2**n - 1):
+            new_1.extend(nums_1)
 
     temp = nums_2
     for i in range(2**n - 1):
         new_2.extend(temp)
         temp = Utils.DFF(temp, 1)
 
-    print(nums_1)
-    print(new_1)
-    print(nums_2)
-    print(new_2)
+    # print(nums_1)
+    # print(new_1)
+    # print(nums_2)
+    # print(new_2)
 
     return new_1, new_2
 
