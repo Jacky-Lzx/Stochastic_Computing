@@ -1,3 +1,5 @@
+import random
+
 from Modules import LFSR, Utils, Sobol
 import Progress_core
 
@@ -42,9 +44,12 @@ if __name__ == '__main__':
     new_1, new_2 = Progress_core.rotate(N, nums_1, nums_2)
     MAEs_LFSR = Progress_core.simulate(N, new_1, new_2, and_fn, real_fn)
 
+    random_times = 10
     N = 5
     LEN = 2**N
-    sobol_nums_1, sobol_nums_2 = Sobol.generate(2, LEN)
+    sobols = Sobol.generate(random_times, LEN)
+    sobol_nums_1 = sobols[random.randint(0, random_times - 1)]
+    sobol_nums_2 = sobols[random.randint(0, random_times - 1)]
     sobol_new_1, sobol_new_2 = Progress_core.rotate(N, sobol_nums_1, sobol_nums_2)
     MAEs_Sobol = Progress_core.simulate(N, sobol_new_1, sobol_new_2, and_fn, real_fn)
 
