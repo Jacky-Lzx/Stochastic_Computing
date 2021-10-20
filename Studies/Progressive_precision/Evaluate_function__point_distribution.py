@@ -68,6 +68,24 @@ def evaluate_2(n: int, nums: list) -> int:
     return ans
 
 
+def evaluate_3(n: int, nums: list) -> int:
+    ans = 0
+    for i in range(max(1, n - 3), n):
+        zeros, _ = distance(n, nums[:2**i])
+        ans += zeros
+
+    # print(f"Before :{ans}")
+    # length = len(nums)
+    ans_2 = 0
+    for j in range(2**n):
+        for i in range(n + 1, 2*n):
+            zeros, _ = distance(n, nums[j:j + 2**(i - n)])
+            ans_2 += zeros
+
+    ans += ans_2 / (2**n - 1)
+    # print(f"After: {ans}")
+    return ans
+
 
 if __name__ == '__main__':
     N = 5
@@ -96,7 +114,7 @@ if __name__ == '__main__':
 
                 _, num_sequence_rotate = Progress_core.rotate(N, None, num_sequence)
 
-                value = evaluate_2(N, num_sequence_rotate)
+                value = evaluate_3(N, num_sequence_rotate)
 
                 # if not priority_queue.empty() and value > priority_queue.last_value():
                 #     continue

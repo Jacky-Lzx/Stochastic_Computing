@@ -8,6 +8,6 @@ if __name__ == '__main__':
     sobol_sequences = Sobol.generate(sobol_num, LEN)
     for sobol_sequence in sobol_sequences:
         _, sobol_sequence_rotate = Progress_core.rotate(N, None, sobol_sequence)
-        ret = Evaluate_function__point_distribution.evaluate_2(N, sobol_sequence_rotate)
+        ret = Evaluate_function__point_distribution.evaluate_3(N, sobol_sequence_rotate)
         print(sobol_sequence)
         print(ret)
