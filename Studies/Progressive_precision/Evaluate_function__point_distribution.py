@@ -1,5 +1,7 @@
 import math
 
+from typing import List, Tuple
+
 from Modules import LFSR, Utils
 
 
@@ -32,48 +34,43 @@ def evaluate(n: int, nums: list) -> int:
         # print(ans)
     return ans
 
+
+def distance(n: int, nums: List[int]) -> Tuple[int, List[int]]:
+    length = len(nums)
+    LEN = 2**n
+    count = [0 for _ in range(length)]
+    zeros = length
+    for i, num in enumerate(nums):
+        # index = math.floor(nums[i] * length / LEN)
+        index = math.ceil(nums[i] * length / LEN) - 1
+        if count[index] == 0:
+            zeros -= 1
+        count[index] += 1
+
+        # assert zeros == sum([1 if a == 0 else 0 for a in count])
+    return zeros, count
+
+
 def evaluate_2(n: int, nums: list) -> int:
     ans = 0
-    # print(nums)
     for i in range(max(1, n - 3), n):
-        count = [0 for _ in range(2**i)]
-        zeros = 2**i
-        for j in range(2**i):
-            # TODO: think twice here
-            if j == 2**n - 1:
-                break
-
-            index = math.ceil(nums[j] / 2**n * 2**i) - 1
-            if count[index] == 0:
-                zeros -= 1
-            count[index] += 1
-
-            assert zeros == sum([1 if a == 0 else 0 for a in count])
+        zeros, _ = distance(n, nums[:2**i])
         ans += zeros
 
-        for k in range(2**n - 1):
-            index_1 = math.ceil(nums[k] / 2**n * 2**i) - 1
-            index_2 = math.ceil(nums[k + 2**i] / 2**n * 2**i) - 1
-            if count[index_1] == 1:
-                count[index_1] = 0
-                zeros += 1
-            elif count[index_1] > 1:
-                count[index_1] -= 1
+    # print(f"Before :{ans}")
+    # length = len(nums)
+    for j in range(2**n):
+        for i in range(n + 1, 2*n):
+            zeros, _ = distance(n, nums[j:j + 2**(i - n)])
+            ans += zeros
 
-            if count[index_2] == 0:
-                zeros -= 1
-            count[index_2] += 1
-
-            assert zeros == sum([1 if a == 0 else 0 for a in count])
-        ans += zeros
-
+    # print(f"After: {ans}")
     return ans
 
 
 
 if __name__ == '__main__':
-
-    N = 6
+    N = 5
     LEN = 2**N
     print(f"N = {N}")
     polynomials = LFSR.search_polynomials(N)
@@ -107,7 +104,7 @@ if __name__ == '__main__':
                 set_t = Setting(poly, seed, scram, value)
 
                 priority_queue.add(set_t)
-                if priority_queue.length() > 200:
+                if priority_queue.length() > 1000:
                     priority_queue.sort()
                     priority_queue.remove_half()
 
