@@ -5,10 +5,16 @@ class Priority_queue:
 
     def add(self, element):
         self.arr.append(element)
+        # list.sort(self.arr, key=lambda a: a.val())
+
+    def sort(self):
         list.sort(self.arr, key=lambda a: a.val())
 
     def remove_last(self):
         del(self.arr[-1])
+
+    def remove_half(self):
+        del(self.arr[-self.length() // 2:])
 
     def length(self):
         return len(self.arr)

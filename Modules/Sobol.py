@@ -14,7 +14,7 @@ def generate(dim: int, num: int):
 
 
     # return sample.tolist()
-    return sample.tolist()
+    return sample.tolist()[0] if dim == 1 else sample.tolist()
 
 
 if __name__ == '__main__':
