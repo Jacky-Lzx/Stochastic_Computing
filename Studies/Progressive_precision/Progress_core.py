@@ -28,13 +28,13 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn):
     print(y_sim)
     print(MAEs)
 
-    from matplotlib import pyplot as plt
-    plt.plot(x_arr, y_real)
-    # for j in range(n - 3, 2 * n + 1):
+    # from matplotlib import pyplot as plt
+    # plt.plot(x_arr, y_real)
+    # # for j in range(n - 3, 2 * n + 1):
+    # #     plt.plot(x_arr, y_sim[j])
+    # for j in range(2 * n - 2, 2 * n + 1):
     #     plt.plot(x_arr, y_sim[j])
-    for j in range(2 * n - 2, 2 * n + 1):
-        plt.plot(x_arr, y_sim[j])
-    plt.show()
+    # plt.show()
 
     return MAEs
 

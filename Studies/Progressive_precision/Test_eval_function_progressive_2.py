@@ -11,15 +11,18 @@ if __name__ == '__main__':
     # poly_2 = [2]
     # scram_2 = (3, 0, 2, 1)
 
-    N = 6
+    N = 5
 
-    poly_1 = [4]
-    seed_1 = [0, 1, 0, 0, 0, 1]
-    scram_1 = (2, 0, 3, 5, 1, 4)
+    # poly_1 = [4]
+    # seed_1 = [0, 1, 0, 0, 0, 1]
+    # scram_1 = (2, 0, 3, 5, 1, 4)
+    poly_1 = [1]
+    seed_1 = [1, 1, 1, 0, 1]
+    scram_1 = (0, 1, 4, 2, 3)
 
-    poly_2 = [0, 3, 4]
-    seed_2 = [0, 0, 1, 1, 1, 1]
-    scram_2 = (2, 4, 0, 5, 1, 3)
+    poly_2 = [2]
+    seed_2 = [1, 0, 1, 1, 1]
+    scram_2 = (4, 3, 0, 1, 2)
     # N = 7
     # poly_1 = [0, 3, 5]
     # seed_1 = [0, 0, 0, 0, 1, 1, 1]
@@ -39,7 +42,7 @@ if __name__ == '__main__':
     new_1, new_2 = Progress_core.rotate(N, nums_1, nums_2)
     MAEs_LFSR = Progress_core.simulate(N, new_1, new_2, and_fn, real_fn)
 
-    N = 6
+    N = 5
     LEN = 2**N
     sobol_nums_1, sobol_nums_2 = Sobol.generate(2, LEN)
     sobol_new_1, sobol_new_2 = Progress_core.rotate(N, sobol_nums_1, sobol_nums_2)
@@ -51,7 +54,7 @@ if __name__ == '__main__':
     plt.plot(range(len(MAEs_LFSR)), MAEs_LFSR)
     plt.plot(range(len(MAEs_Sobol)), MAEs_Sobol)
     # plt.ylim((0, 0.08))
-    # plt.legend(['7-bit LFSR', '6-bit Sobol'])
+    plt.legend(['LFSR', 'Sobol'])
     plt.xlabel("n")
     plt.ylabel("MAE")
     plt.show()
