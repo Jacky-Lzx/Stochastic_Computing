@@ -42,12 +42,16 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool =
 def rotate(n: int, nums_1: list, nums_2: list) -> tuple:
     new_1 = list()
     new_2 = list()
+
+    length = len(nums_1)
+    assert length == len(nums_2)
+
     if nums_1 is not None:
-        for i in range(2**n - 1):
+        for i in range(length):
             new_1.extend(nums_1)
 
     temp = nums_2
-    for i in range(2**n - 1):
+    for i in range(length):
         new_2.extend(temp)
         temp = Utils.DFF(temp, 1)
 
