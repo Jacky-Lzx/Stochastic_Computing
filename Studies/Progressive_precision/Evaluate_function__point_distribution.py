@@ -70,9 +70,10 @@ def evaluate_2(n: int, nums: list) -> int:
 
 def evaluate_3(n: int, nums: list) -> int:
     ans = 0
-    for i in range(max(1, n - 3), n):
-        zeros, _ = distance(n, nums[:2**i])
-        ans += zeros
+    # for i in range(max(1, n - 3), n):
+    # for i in range(max(1, n - 1), n):
+    #     zeros, _ = distance(n, nums[:2**i])
+    #     ans += zeros
 
     # print(f"Before :{ans}")
     # length = len(nums)
@@ -94,9 +95,9 @@ if __name__ == '__main__':
     polynomials = LFSR.search_polynomials(N)
     print(f"polynomials = {polynomials}")
     seeds = Utils.generate_seeding(N)
-    print(f"seeds = {seeds}")
+    # print(f"seeds = {seeds}")
     scramblings = Utils.generate_scrambling(N)
-    print(f"scramblings = {scramblings}")
+    # print(f"scramblings = {scramblings}")
 
     # print(evaluate(3, [1, 4, 6, 7, 3, 5, 2]))
     # from queue import PriorityQueue
@@ -106,9 +107,12 @@ if __name__ == '__main__':
 
     import Progress_core
 
+    # index = 0
+
     for poly in polynomials:
         print("Now: {}".format(poly))
         for seed in seeds:
+            print(f"\tseed:{seed}")
             for scram in scramblings:
                 num_sequence = LFSR.simulate(N, seed, poly, scram)
 
@@ -116,17 +120,22 @@ if __name__ == '__main__':
 
                 value = evaluate_3(N, num_sequence_rotate)
 
+                # print(value)
+
+                # index += 1
+
                 # if not priority_queue.empty() and value > priority_queue.last_value():
                 #     continue
+
 
                 set_t = Setting(poly, seed, scram, value)
 
                 priority_queue.add(set_t)
-                if priority_queue.length() > 1000:
+                if priority_queue.length() > 10000:
                     priority_queue.sort()
                     priority_queue.remove_half()
 
     priority_queue.sort()
-    while priority_queue.length() > 100:
+    while priority_queue.length() > 200:
         priority_queue.remove_half()
     priority_queue.print()
