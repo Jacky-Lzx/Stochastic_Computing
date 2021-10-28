@@ -1,7 +1,7 @@
 from Modules import Utils
 
 
-def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn):
+def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool = True):
     LEN = 2**n
     MAEs = [0 for _ in range(2 * n + 1)]
     x_arr = range(LEN)
@@ -9,8 +9,8 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn):
     y_real = [real_fn(x) for x in x_arr]
     for j in range(n - 3, 2 * n + 1):
         for x in range(LEN):
-            bitstream_1 = Utils.comparator(nums_1, x, le=True)
-            bitstream_2 = Utils.comparator(nums_2, x, le=True)
+            bitstream_1 = Utils.comparator(nums_1, x, le)
+            bitstream_2 = Utils.comparator(nums_2, x, le)
 
             output = circuit_fn(bitstream_1, bitstream_2)
 

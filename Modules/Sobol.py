@@ -1,8 +1,10 @@
+from typing import List
+
 import numpy
 import sobol
 
 
-def generate(dim: int, num: int):
+def generate(dim: int, num: int) -> List[List[int]]:
     sample = sobol.sample(dim, num - 1)
     # numpy.transpose(sample)
     # numpy.swapaxes(sample, 0, 1)
