@@ -1,3 +1,5 @@
+from typing import Tuple
+
 
 def search_polynomials(n: int):
     def generate_pivots(n: int):
@@ -33,7 +35,7 @@ def search_polynomials(n: int):
 
 
 # TODO: inverting
-def simulate(n: int, seed: list, polynomial: list, scrambling: list = None, inserting_zero: int = -1, inverting: list = None) -> list:
+def simulate(n: int, seed: list, polynomial: list, scrambling: tuple = None, inserting_zero: int = -1, inverting: list = None) -> list:
     """
         scrambling[i] = j means the i-th bit in output is connected to the j-th bit before
     :param n: 
