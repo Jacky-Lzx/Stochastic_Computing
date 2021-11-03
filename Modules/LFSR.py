@@ -1,115 +1,108 @@
-from typing import Tuple
+from typing import Tuple, List
 
 
-def search_polynomials(n: int):
-    def generate_pivots(n: int):
-        def helper(n: int, index: int, cur_list: list, ans: list):
-            if index == n - 1:
-                ans.append(cur_list.copy())
-                return
-            cur_list.append(index)
-            helper(n, index + 1, cur_list, ans)
-            del(cur_list[-1])
-            helper(n, index + 1, cur_list, ans)
+class LFSR:
+    class setting:
+        def __init__(self, seed: List[int], polynomial: List[int], scrambling: List[int] = None, inverter: List[int] = None, inserting_zero: bool = False, zero_position: int = -1):
+            """
+            :param seed:
+            :param polynomial:
+            :param scrambling: scrambling[i] = j means the i-th bit in output is connected to the j-th bit before
+            :param inverter:
+            :param inserting_zero:
+            :param zero_position:
+            """
+            self.seed = seed
+            self.polynomial = polynomial
+            self.scrambling = scrambling
+            self.inverter = inverter
+            self.inserting_zero = inserting_zero
+            self.zero_position = zero_position
 
-        ans = list()
-        helper(n, 0, list(), ans)
-        return ans
+    def __init__(self, N: int, LFSR_inverter: List[int] = None):
+        self.N = N
+        if LFSR_inverter is not None:
+            assert N == len(LFSR_inverter)
+        self.LFSR_inverter = LFSR_inverter
 
-    pivots = generate_pivots(n)
-    del(pivots[-1])
-    # print(pivots)
+    # TODO: inverting
+    def simulate(self, a_setting: setting):
+        def get_num(binary: List[int], scrambling: List[int] = None) -> int:
+            length = len(binary)
+            multiplier = 1
+            result = 0
+            if scrambling is None:
+                for i in range(length - 1, -1, -1):
+                    result += multiplier * binary[i]
+                    multiplier *= 2
+            else:
+                for i in range(length - 1, -1, -1):
+                    result += multiplier * binary[scrambling[i]]
+                    multiplier *= 2
+            return result
 
-    seed = [0 for _ in range(n)]
-    seed[-1] = 1
+        def process(n: int, cur: List[int], poly: List[int]) -> List[int]:
+            node = cur[-1]
+            for p in poly:
+                # if p != 0 and p != n - 1:
+                node ^= cur[p]
 
-    polynomials = list()
+            cur.insert(0, node)
+            del (cur[-1])
+            return cur
 
-    for polynomial in pivots:
-        nums = simulate(n, seed, polynomial)
-        if len(nums) == 2**n - 1:
-            polynomials.append(polynomial)
+        output = list()
+        numbers = set()
+        cur = a_setting.seed.copy()
 
-    # print(polynomials)
-    return polynomials
-
-
-# TODO: inverting
-def simulate(n: int, seed: list, polynomial: list, scrambling: tuple = None, inserting_zero: int = -1, inverting: list = None) -> list:
-    """
-        scrambling[i] = j means the i-th bit in output is connected to the j-th bit before
-    :param n: 
-    :param seed: 
-    :param polynomial: 
-    :param scrambling:
-    :param inserting_zero:
-    :param inverting:
-    :return: 
-    """
-    def get_num(binary: list, scrambling: list = None) -> int:
-        length = len(binary)
-        multiplier = 1
-        result = 0
-        if scrambling is None:
-            for i in range(length - 1, -1, -1):
-                result += multiplier * binary[i]
-                multiplier *= 2
-        else:
-            for i in range(length - 1, -1, -1):
-                result += multiplier * binary[scrambling[i]]
-                multiplier *= 2
-        return result
-
-    def process(n: int, cur: list, poly: list) -> list:
-        node = cur[-1]
-        for p in poly:
-            # if p != 0 and p != n - 1:
-            node ^= cur[p]
-
-        cur.insert(0, node)
-        del(cur[-1])
-        return cur
-
-    output = list()
-    numbers = set()
-    cur = seed.copy()
-
-    index = 0
-
-    while True:
-        if index == inserting_zero:
-            num = get_num([0 for _ in range(n)], scrambling)
+        index = 0
+        while True:
+            if a_setting.inserting_zero and index == a_setting.zero_position:
+                num = get_num([0 for _ in range(self.N)], a_setting.scrambling)
+                numbers.add(num)
+                output.append(num)
+            num = get_num(cur, a_setting.scrambling)
+            if num in numbers:
+                break
             numbers.add(num)
             output.append(num)
-        num = get_num(cur, scrambling)
-        if num in numbers:
-            break
-        numbers.add(num)
-        output.append(num)
-        cur = process(n, cur, polynomial)
+            cur = process(self.N, cur, a_setting.polynomial)
 
-        index += 1
+            index += 1
+        return output
 
-    return output
+    def search_polynomials(self):
+        def generate_pivots(n: int):
+            def helper(n: int, index: int, cur_list: list, ans: list):
+                if index == n - 1:
+                    ans.append(cur_list.copy())
+                    return
+                cur_list.append(index)
+                helper(n, index + 1, cur_list, ans)
+                del(cur_list[-1])
+                helper(n, index + 1, cur_list, ans)
+
+            ans = list()
+            helper(n, 0, list(), ans)
+            return ans
+
+        pivots = generate_pivots(self.N)
+        del(pivots[-1])
+
+        seed = [0 for _ in range(self.N)]
+        seed[-1] = 1
+
+        polynomials = list()
+        for polynomial in pivots:
+            a_setting = LFSR.setting(seed, polynomial)
+            nums = self.simulate(a_setting)
+            if len(nums) == 2**self.N - 1:
+                polynomials.append(polynomial)
+        return polynomials
 
 
 if __name__ == '__main__':
-    # print(LFSR.simulate(4, [0,0,0,1], [0,1]))
-
-    # print(LFSR.search_polynomials(5))
-
-    N = 6
-
-    # import Utils
-    # scramblings = Utils.generate_scrambling(N)
-    #
-    seed = [0 for _ in range(N)]
-    seed[-1] = 1
-
-    polynomials = search_polynomials(N)
-    print(polynomials)
-    # for scram in scramblings:
-    #     print(simulate(N, seed, polynomials[0], scram))
-
-
-    print(simulate(N, seed, polynomials[0], None, 0, None))
+    lfsr = LFSR(8)
+    polys = lfsr.search_polynomials()
+    print(polys)
+    print(len(polys))
