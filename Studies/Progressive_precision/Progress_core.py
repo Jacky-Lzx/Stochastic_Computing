@@ -38,8 +38,9 @@ def rotate(nums_1: list, nums_2: list) -> tuple:
     new_1 = list()
     new_2 = list()
 
-    length = len(nums_1)
-    assert length == len(nums_2)
+    length = len(nums_2)
+    if nums_1 is not None:
+        assert length == len(nums_1)
 
     if nums_1 is not None:
         for i in range(length):
