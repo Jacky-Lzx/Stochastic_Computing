@@ -102,7 +102,15 @@ class LFSR:
 
 
 if __name__ == '__main__':
-    lfsr = LFSR(8)
+    N = 8
+    lfsr = LFSR(N)
     polys = lfsr.search_polynomials()
     print(polys)
+    seed = [0 for _ in range(N)]
+    seed[-1] = 1
+
+    a_setting = LFSR.setting(seed, polys[0], None, None, True, 2)
+    bitstream = lfsr.simulate(a_setting)
+    print(bitstream)
+
     print(len(polys))
