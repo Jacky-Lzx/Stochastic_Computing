@@ -1,8 +1,10 @@
-from Modules import LFSR, Utils
+from Modules import Utils
+from Modules.LFSR import LFSR
 
 if __name__ == '__main__':
-    N = 8
-    polynomials = LFSR.search_polynomials(N)
+    N = 5
+    a_LFSR = LFSR(N)
+    polynomials = a_LFSR.search_polynomials()
     # polynomial = polynomials[0]
     seed = [0 for _ in range(N)]
     seed[-1] = 1
@@ -12,9 +14,14 @@ if __name__ == '__main__':
     MAE_2s = list()
 
     for polynomial in polynomials:
-        nums_1 = LFSR.simulate(N, seed, polynomial)
+        a_setting = LFSR.setting(seed, polynomial)
+
+        nums_1 = a_LFSR.simulate(a_setting)
         nums_2 = Utils.DFF(nums_1, 4)
-        nums_3 = LFSR.simulate(N, seed, polynomial, None, 100)
+
+        a_setting.inserting_zero = True
+        a_setting.zero_position = 100
+        nums_3 = a_LFSR.simulate(a_setting)
         nums_4 = Utils.DFF(nums_3, 4)
 
         and_fn = lambda x, y: [1 if (x[i] == 1 and y[i] == 1) else 0 for i in range(len(x))]
