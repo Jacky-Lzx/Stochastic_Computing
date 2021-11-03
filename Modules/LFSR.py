@@ -50,11 +50,12 @@ class LFSR:
             cur.insert(0, node)
             del (cur[-1])
 
-            for i, num in enumerate(inverter):
-                if num == 1:
-                    if i == n - 1:
-                        continue
-                    cur[i + 1] ^= 1
+            if inverter is not None:
+                for i, num in enumerate(inverter):
+                    if num == 1:
+                        if i == n - 1:
+                            continue
+                        cur[i + 1] ^= 1
             return cur
 
         output = list()
