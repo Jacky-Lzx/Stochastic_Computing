@@ -1,3 +1,5 @@
+from typing import List
+
 from Modules import Utils
 
 
@@ -39,7 +41,7 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool =
     return MAEs
 
 
-def rotate(n: int, nums_1: list, nums_2: list) -> tuple:
+def rotate(nums_1: list, nums_2: list) -> tuple:
     new_1 = list()
     new_2 = list()
 
@@ -61,7 +63,6 @@ def rotate(n: int, nums_1: list, nums_2: list) -> tuple:
     # print(new_2)
 
     return new_1, new_2
-
 
 
 if __name__ == '__main__':
