@@ -13,15 +13,15 @@ def counter(n: int) -> List[int]:
         temp_bits.reverse()
         ans.append(temp_bits)
     # print(ans)
-    return Utils.bit_arrays_to_nums(n, ans)[1:]
-    # return Utils.bit_arrays_to_nums(n, ans)
+    # return Utils.bit_arrays_to_nums(n, ans)[1:]
+    return Utils.bit_arrays_to_nums(n, ans)
 
 
 def sobol_source_2(n: int) -> List[int]:
     rand_num = 10
     sobols = Sobol.generate(rand_num, 2**n)
     ans = sobols[random.randint(0, rand_num - 1)]
-    # ans.insert(0, 0)
+    ans.insert(0, 0)
     return ans
 
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     sobol_1 = counter(N)
     sobol_2 = sobol_source_2(N)
     sobol_rotate_1, sobol_rotate_2 = Progress_core.rotate(N, sobol_1, sobol_2)
-    MAEs = Progress_core.simulate(N, sobol_rotate_1, sobol_rotate_2, and_fn, real_fn, True)
+    MAEs = Progress_core.simulate(N, sobol_rotate_1, sobol_rotate_2, and_fn, real_fn, False)
 
     nums_1 = LFSR.simulate(N, seed_1, poly_1, scram_1)
     nums_2 = LFSR.simulate(N, seed_2, poly_2, scram_2)
