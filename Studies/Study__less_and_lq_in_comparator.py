@@ -1,4 +1,5 @@
-from Modules import Utils, LFSR
+from Modules import Utils
+from Modules.LFSR import LFSR
 
 if __name__ == '__main__':
     N = 8
@@ -7,7 +8,11 @@ if __name__ == '__main__':
     seed[-1] = 1
     LEN = 2**N
 
-    nums = LFSR.simulate(N, seed, polynomial)
+    a_LFSR = LFSR(N, None)
+
+    a_setting = LFSR.setting(seed, polynomial)
+
+    nums = a_LFSR.simulate(a_setting)
 
     and_fn = lambda x, y: [1 if (x[i] == 1 and y[i] == 1) else 0 for i in range(len(x))]
 
