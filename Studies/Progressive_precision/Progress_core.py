@@ -5,7 +5,6 @@ from Modules import Utils
 def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool = False):
     LEN = 2**n
     MAEs = [0 for _ in range(2 * n + 1)]
-    x_arr = range(LEN)
     y_sim = [[0 for _ in range(LEN)] for __ in range(2 * n + 1)]
     for j in range(max(1, n - 3), 2 * n + 1):
         for x in range(LEN):
@@ -23,6 +22,7 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool =
     print(MAEs)
 
     # from matplotlib import pyplot as plt
+    # x_arr = range(LEN)
     # y_real = [real_fn(x) for x in x_arr]
     # plt.plot(x_arr, y_real)
     # # for j in range(n - 3, 2 * n + 1):
