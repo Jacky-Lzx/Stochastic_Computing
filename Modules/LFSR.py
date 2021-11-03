@@ -3,7 +3,7 @@ from typing import Tuple, List
 
 class LFSR:
     class setting:
-        def __init__(self, seed: List[int], polynomial: List[int], scrambling: List[int] = None, inverter: List[int] = None, inserting_zero: bool = False, zero_position: int = -1):
+        def __init__(self, seed: List[int], polynomial: List[int], scrambling: Tuple = None, inverter: List[int] = None, inserting_zero: bool = False, zero_position: int = -1):
             """
             :param seed:
             :param polynomial:
