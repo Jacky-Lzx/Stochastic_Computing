@@ -12,10 +12,10 @@ class LFSR:
             :param inserting_zero:
             :param zero_position:
             """
-            self.seed = seed
-            self.polynomial = polynomial
+            self.seed = seed.copy()
+            self.polynomial = polynomial.copy()
             self.scrambling = scrambling
-            self.inverter = inverter
+            self.inverter = None if inverter is None else inverter.copy()
             self.inserting_zero = inserting_zero
             self.zero_position = zero_position
 
@@ -43,6 +43,14 @@ class LFSR:
 
         def process(n: int, cur: List[int], poly: List[int], inverter: List[int]) -> List[int]:
             node = cur[-1]
+
+            if inverter is not None:
+                for i, num in enumerate(inverter):
+                    if num == 1:
+                        # if i == n - 1:
+                        #     continue
+                        cur[i] ^= 1
+
             for p in poly:
                 # if p != 0 and p != n - 1:
                 node ^= cur[p]
@@ -50,12 +58,6 @@ class LFSR:
             cur.insert(0, node)
             del (cur[-1])
 
-            if inverter is not None:
-                for i, num in enumerate(inverter):
-                    if num == 1:
-                        if i == n - 1:
-                            continue
-                        cur[i + 1] ^= 1
             return cur
 
         output = list()
@@ -79,6 +81,7 @@ class LFSR:
             for i in range(2**self.N):
                 if i not in numbers:
                     output.insert(a_setting.zero_position, i)
+                    break
         return output
 
     def search_polynomials(self):
@@ -116,19 +119,30 @@ class LFSR:
 
 if __name__ == '__main__':
     import Utils
-    N = 8
-    polys_record = None
+    N = 3
     inverters = Utils.generate_seeding(N)
+
+    a_LFSR = LFSR(N)
+    polys_record = a_LFSR.search_polynomials()
+    print(f"polys_record: {polys_record}")
+
     for inverter in inverters:
-        print(f"LFSR_inverter: {inverter}")
+        # print(f"LFSR_inverter: {inverter}")
 
         lfsr = LFSR(N, inverter)
         polys = lfsr.search_polynomials()
         if polys_record is None:
             polys_record = polys.copy()
         else:
-            assert polys_record == polys
-        print(polys)
+            try:
+                assert polys_record == polys
+            except AssertionError:
+                print("--------------------")
+                # print(f"polys_record: {polys_record}")
+                print(f"polys: {polys}")
+                print(f"inverter: {inverter}")
+                # print("--------------------")
+        # print(polys)
         seed = [0 for _ in range(N)]
         seed[-1] = 1
 
@@ -136,4 +150,13 @@ if __name__ == '__main__':
         bitstream = lfsr.simulate(a_setting)
         # print(bitstream)
 
-    # print(len(polys))
+    N = 3
+    inverter = [0, 1, 0]
+    a_LFSR = LFSR(N, inverter)
+    # polys = a_LFSR.search_polynomials()
+    poly = [0]
+    seed = [0 for _ in range(N)]
+    seed[-1] = 1
+    a_setting = LFSR.setting(seed, poly, None, None, True, 0)
+    nums = a_LFSR.simulate(a_setting)
+    print(nums)
