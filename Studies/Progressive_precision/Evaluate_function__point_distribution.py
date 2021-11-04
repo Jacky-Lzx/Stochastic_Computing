@@ -2,7 +2,9 @@ import math
 
 from typing import List, Tuple
 
-from Modules import LFSR, Utils
+from Modules import Utils
+
+from Modules.LFSR import LFSR
 
 
 class Setting:
@@ -92,7 +94,8 @@ if __name__ == '__main__':
     N = 5
     LEN = 2**N
     print(f"N = {N}")
-    polynomials = LFSR.search_polynomials(N)
+    a_LFSR = LFSR(N)
+    polynomials = a_LFSR.search_polynomials()
     print(f"polynomials = {polynomials}")
     seeds = Utils.generate_seeding(N)
     # print(f"seeds = {seeds}")
@@ -114,9 +117,10 @@ if __name__ == '__main__':
         for seed in seeds:
             print(f"\tseed:{seed}")
             for scram in scramblings:
-                num_sequence = LFSR.simulate(N, seed, poly, scram)
+                a_setting = LFSR.setting(seed, poly, scram, None, True, 0)
+                num_sequence = a_LFSR.simulate(a_setting)
 
-                _, num_sequence_rotate = Progress_core.rotate(N, None, num_sequence)
+                _, num_sequence_rotate = Progress_core.rotate(None, num_sequence)
 
                 value = evaluate_3(N, num_sequence_rotate)
 
