@@ -11,6 +11,8 @@ if __name__ == '__main__':
 
     N = 5
 
+    random_times = 10
+
     file_polys = list()
     file_seeds = list()
     file_scrams = list()
@@ -31,7 +33,7 @@ if __name__ == '__main__':
     def real_fn(x): return x**2 / LEN**2
 
     a_LFSR = LFSR(N)
-    for i in range(5):
+    for i in range(random_times):
         rand_1 = 0
         rand_2 = 0
         while file_polys[rand_1] == file_polys[rand_2]:
@@ -55,7 +57,7 @@ if __name__ == '__main__':
     polynomials = a_LFSR.search_polynomials()
     seeds = Utils.generate_seeding(N)
     scramblings = Utils.generate_scrambling(N)
-    for i in range(5):
+    for i in range(random_times):
         rand_1 = 0
         rand_2 = 0
         while polynomials[rand_1] == polynomials[rand_2]:

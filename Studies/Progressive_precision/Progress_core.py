@@ -18,8 +18,8 @@ def simulate(n: int, nums_1: list, nums_2: list, circuit_fn, real_fn, le: bool =
     for j in range(max(1, n - 3), 2 * n + 1):
         MAEs[j] /= LEN
 
-    print(y_sim)
-    print(MAEs)
+    # print(y_sim)
+    # print(MAEs)
 
     # from matplotlib import pyplot as plt
     # x_arr = range(LEN)
